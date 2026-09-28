@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Planilha Inteligente de Controle Financeiro - Duplo Ciclo</title>
+  
+  <title>Planilha Inteligente de Controle Financeiro</title>
+
+  <!-- Identidade visual -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+  <meta name="theme-color" content="#0f172a">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -61,7 +67,7 @@
           <i class="fa-solid fa-wallet text-slate-950 text-xl"></i>
         </div>
         <div>
-          <h1 class="text-lg font-bold text-white tracking-wide">Gestão Financeira Duplo Ciclo</h1>
+          <h1 class="text-lg font-bold text-white tracking-wide">Gestão Financeira SeravaT</h1>
           <p class="text-xs text-slate-400">Controle Inteligente & Amortização Habitação</p>
         </div>
       </div>
@@ -77,9 +83,23 @@
           <option value="03-2027">Março / 2027 (IPTU)</option>
         </select>
         
-        <button onclick="exportData()" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition border border-slate-700" title="Exportar dados em JSON">
-          <i class="fa-solid fa-download"></i>
-        </button>
+        <!-- Exportar relatório em PDF -->
+<button
+    onclick="exportPDF()"
+    class="p-2 bg-slate-800 hover:bg-rose-900/40 hover:text-rose-400 text-slate-300 rounded-lg transition border border-slate-700"
+    title="Exportar relatório em PDF"
+>
+    <i class="fa-solid fa-file-pdf"></i>
+</button>
+
+<!-- Backup dos dados em JSON -->
+<button
+    onclick="exportData()"
+    class="p-2 bg-slate-800 hover:bg-blue-900/40 hover:text-blue-400 text-slate-300 rounded-lg transition border border-slate-700"
+    title="Backup dos dados em JSON"
+>
+    <i class="fa-solid fa-file-code"></i>
+</button>
         <button onclick="resetData()" class="p-2 bg-slate-800 hover:bg-rose-900/40 hover:text-rose-400 text-slate-400 rounded-lg transition border border-slate-700" title="Restaurar Dados Iniciais">
           <i class="fa-solid fa-rotate-left"></i>
         </button>
