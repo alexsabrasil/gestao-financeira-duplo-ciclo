@@ -7,6 +7,10 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Geração de relatórios em PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -884,7 +888,135 @@
       showToast("Novo item adicionado com sucesso!", "success");
       document.getElementById('formNewItem').reset();
     }
+  function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
 
+      const periodoSelect = document.getElementById('monthSelect');
+      const periodo = periodoSelect.options[periodoSelect.selectedIndex].text;
+
+      const totalPrevisto = currentExpenses.reduce(
+          (acc, item) => acc + Number(item.valor), 0
+    );
+
+      const totalPago = currentExpenses
+        .filter(item => item.pago)
+        .reduce((acc, item) => acc + Number(item.valorPago), 0);
+
+      const totalPendente = Math.max(0, totalPrevisto - totalPago);
+
+      const moeda = valor =>
+          Number(valor).toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+          });
+
+    // Título
+    doc.setFontSize(18);
+    doc.text('Gestao Financeira Duplo Ciclo', 14, 18);
+
+    doc.setFontSize(11);
+    doc.text(`Relatorio Financeiro - ${periodo}`, 14, 27);
+
+    // Resumo
+    doc.setFontSize(12);
+    doc.text('Resumo Financeiro', 14, 40);
+
+    doc.setFontSize(10);
+    doc.text(`Total previsto: ${moeda(totalPrevisto)}`, 14, 48);
+    doc.text(`Total pago: ${moeda(totalPago)}`, 14, 55);
+    doc.text(`Saldo pendente: ${moeda(totalPendente)}`, 14, 62);
+
+    const gerarTabela = (bloco, titulo, inicioY) => {
+        const itens = currentExpenses.filter(item => item.bloco === bloco);
+
+        if (itens.length === 0) {
+            return inicioY;
+        }
+
+        doc.setFontSize(11);
+        doc.text(titulo, 14, inicioY);
+
+        doc.autoTable({
+            startY: inicioY + 4,
+
+            head: [[
+                'Descricao',
+                'Categoria',
+                'Venc.',
+                'Previsto',
+                'Pago',
+                'Status'
+            ]],
+
+            body: itens.map(item => [
+                item.desc,
+                item.cat,
+                `Dia ${item.dia}`,
+                moeda(item.valor),
+                item.pago ? moeda(item.valorPago) : '-',
+                item.pago ? 'Pago' : 'Pendente'
+            ]),
+
+            styles: {
+                fontSize: 8,
+                cellPadding: 2
+            },
+
+            headStyles: {
+                fontStyle: 'bold'
+            }
+        });
+
+        return doc.lastAutoTable.finalY + 10;
+    };
+
+    let posicaoY = 75;
+
+    posicaoY = gerarTabela(
+        'P1',
+        'Parte 1 - Vencimentos de 07 a 10',
+        posicaoY
+    );
+
+    posicaoY = gerarTabela(
+        'P2',
+        'Parte 2 - Vencimentos de 20 a 25',
+        posicaoY
+    );
+
+    gerarTabela(
+        'P3',
+        'Outras Despesas',
+        posicaoY
+    );
+
+    // Rodapé
+    const paginas = doc.internal.getNumberOfPages();
+
+    for (let pagina = 1; pagina <= paginas; pagina++) {
+        doc.setPage(pagina);
+        doc.setFontSize(8);
+        doc.text(
+            `Gestao Financeira Duplo Ciclo | Pagina ${pagina} de ${paginas}`,
+            14,
+            290
+        );
+    }
+
+    const periodoArquivo = document
+        .getElementById('monthSelect')
+        .value
+        .replace('/', '-');
+
+    doc.save(`relatorio-financeiro-${periodoArquivo}.pdf`);
+
+    showToast(
+        'Relatorio financeiro exportado em PDF!',
+        'success'
+    );
+}
+    
     function exportData() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentExpenses, null, 2));
       const downloadAnchor = document.createElement('a');
