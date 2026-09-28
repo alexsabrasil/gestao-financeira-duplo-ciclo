@@ -1,5 +1,7 @@
 # Gestão Financeira SeravaT S/A
 
+<img width="1672" height="941" alt="Image" src="https://github.com/user-attachments/assets/ba770a00-a131-47be-b9f9-e8a1f25d23a7" />
+
 Aplicação web desenvolvida para auxiliar na organização e no acompanhamento de despesas pessoais por ciclos de vencimento.
 
 O projeto surgiu da necessidade de visualizar melhor a distribuição dos gastos ao longo do mês, acompanhar pagamentos e apoiar o planejamento financeiro de forma simples e visual.
