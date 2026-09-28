@@ -1,10 +1,10 @@
-# 💰 Gestão Financeira Duplo Ciclo
+# Gestão Financeira SeravaT S/A
 
 Aplicação web desenvolvida para auxiliar na organização e no acompanhamento de despesas pessoais por ciclos de vencimento.
 
 O projeto surgiu da necessidade de visualizar melhor a distribuição dos gastos ao longo do mês, acompanhar pagamentos e apoiar o planejamento financeiro de forma simples e visual.
 
-## 🎯 Objetivo
+## Objetivo
 
 Organizar despesas em diferentes períodos do mês, permitindo visualizar valores previstos, pagamentos realizados, saldo pendente e distribuição dos gastos por categoria.
 
@@ -57,7 +57,7 @@ A versão pública utiliza somente dados fictícios para demonstração.
 - GitHub
 - GitHub Pages
 
-## 🚀 Execução
+## Execução
 
 Por ser uma aplicação web estática, o projeto pode ser executado diretamente pelo arquivo:
 
@@ -71,7 +71,7 @@ Os cálculos, projeções e informações apresentadas pela aplicação possuem 
 
 O projeto não substitui orientação financeira, contábil ou bancária profissional.
 
-## 👩‍💻 Autoria
+## Autoria
 
 Desenvolvido por **Alexsandra Tavares Sabino da Silva (Alê)**.
 
